@@ -1,15 +1,9 @@
 
 import { returnRandomNumber, getRandomArrayElement } from './util.js';
 import { getProfileUrlId } from './data-utils.js';
-import {cloneTemplateElement} from './template.js';
-import { USER_PROFILES_MAX_ID_COUNT, ARRAY_OF_USER_MESSAGES, ARRAY_OF_USER_NAMES, ARRAY_OF_IMAGES_DESCRIPTION, USER_PROFILE_MIN_LIKES_COUNT, USER_PROFILE_MAX_LIKES_COUNT, USER_PROFILE_MIN_COMMENTS_COUNT, USER_PROFILE_MAX_COMMENTS_COUNT } from './constants.js';
+import { ARRAY_OF_USER_MESSAGES, ARRAY_OF_USER_NAMES, ARRAY_OF_IMAGES_DESCRIPTION, USER_PROFILE_MIN_LIKES_COUNT, USER_PROFILE_MAX_LIKES_COUNT, USER_PROFILE_MIN_COMMENTS_COUNT, USER_PROFILE_MAX_COMMENTS_COUNT } from './constants.js';
 let commentId = 1;
 let userProfileId = 1;
-const templateParent = document.querySelector('#picture').content;
-const templateChildImg = templateParent.querySelector('.picture');
-const templateChildComments = templateParent.querySelector('.picture__comments');
-const templateChildLikes = templateParent.querySelector('.picture__likes');
-const userProfileUrlIdUsed = [];
 
 /** Function is generate comment
  * @param {number} commentId
@@ -53,12 +47,4 @@ function generateUserProfile() {
 function generateUserProfiles(length) {
   return Array.from({ length }, generateUserProfile);
 }
-/**  Function to generate template elements
- * @param {number} length
- * @return {array}
-**/
-function generateTemplateElements() {
-  return Array.from({ length: USER_PROFILES_MAX_ID_COUNT}, cloneTemplateElement);
-}
-
-export {generateUserProfiles, generateTemplateElements, userProfileUrlIdUsed, templateParent, templateChildImg, templateChildComments, templateChildLikes};
+export {generateUserProfiles};

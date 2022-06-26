@@ -1,6 +1,8 @@
 import {USER_PROFILES_MIN_ID_COUNT,USER_PROFILES_MAX_ID_COUNT} from './constants.js';
 import {returnRandomNumber} from './util.js';
-import {userProfileUrlIdUsed} from './data.js';
+
+const userProfileUrlIdUsed = [];
+
 /**  Function to generate random index
  * @param {number} index
  * @return {number}
