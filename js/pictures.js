@@ -11,7 +11,7 @@ function createPicture(item) {
   clonedPictureElement.querySelector('.picture__img').src = item.url;
   clonedPictureElement.querySelector('.picture__comments').textContent = item.comments.length;
   clonedPictureElement.querySelector('.picture__likes').textContent = item.likes;
-  clonedPictureElement.addEventListener('click',showBigPicture(item));
+  clonedPictureElement.querySelector('.picture').addEventListener('click',() => showBigPicture(item));
   return clonedPictureElement;
 }
 
