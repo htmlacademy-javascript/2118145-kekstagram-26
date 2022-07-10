@@ -1,11 +1,12 @@
+import { initPopup } from './popup.js';
 const bigPictureElement = document.querySelector('.big-picture');
-const bigPictureCancel = bigPictureElement.querySelector('.big-picture__cancel');
 const urlPicture = bigPictureElement.querySelector('.big-picture__img img');
 const descrPicture = bigPictureElement.querySelector('.big-picture__social .social__caption');
 const countLikesPicture = bigPictureElement.querySelector('.big-picture__social .likes-count');
 const commentsContainer = bigPictureElement.querySelector('.social__comments');
-const сommentContainer = bigPictureElement.querySelector('.social__comment').cloneNode(true);
+const commentContainer = bigPictureElement.querySelector('.social__comment').cloneNode(true);
 const commentsCount = bigPictureElement.querySelector('.comments-count');
+const {openPopup} = initPopup(bigPictureElement);
 
 /** Function clears old comments
 **/
@@ -18,7 +19,7 @@ function clearComments() {
  * @return {DocumentFragment}
 **/
 function createComment(itemComment) {
-  const cloneCommentElement = сommentContainer.cloneNode(true);
+  const cloneCommentElement = commentContainer.cloneNode(true);
   cloneCommentElement.querySelector('.social__picture').src = itemComment.avatar;
   cloneCommentElement.querySelector('.social__picture').alt = itemComment.name;
   cloneCommentElement.querySelector('.social__text').textContent = itemComment.message;
@@ -46,41 +47,15 @@ function replaceComments(itemReplaceComment) {
   commentsContainer.appendChild(createComments(itemReplaceComment));
   commentsCount.textContent = itemReplaceComment.length;
 }
-/** The function hides the window when the "Close window" button is clicked
-**/
-function closeBigPicture() {
-  bigPictureElement.classList.add('hidden');
-  document.body.style.overflow = 'auto';
-  document.body.removeEventListener('keydown', closeEscapeBigPicture);
-}
-
-/** The function hides the window when the "Esc" key is pressed
-**/
-function closeEscapeBigPicture() {
-  document.body.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeBigPicture();
-    }
-  });
-}
-bigPictureCancel.addEventListener('click', closeBigPicture);
 
 /** The function calls methods to open a full size window, display user data, and load comments, and loads the current photo's user data
  *  @param {object} item
 **/
 function showBigPicture(item) {
-  openBigPicture();
+  openPopup();
   replaceComments(item.comments);
-  closeEscapeBigPicture();
   urlPicture.src = item.url;
   descrPicture.textContent = item.description;
   countLikesPicture.textContent = item.likes;
-}
-/** The function  open a full size window with photo
-**/
-function openBigPicture() {
-  if (bigPictureElement.classList.contains('hidden')) {
-    bigPictureElement.classList.remove('hidden');
-  }
 }
 export { showBigPicture };
