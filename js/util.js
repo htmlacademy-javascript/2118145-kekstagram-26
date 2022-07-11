@@ -28,4 +28,13 @@ function getRandomArrayElement(array) {
   return array[returnRandomNumber(0, array.length - 1)];
 }
 
-export { getRandomArrayElement, returnRandomNumber };
+class RandomGenerator {
+  constructor(length) {
+    this.array = Array.from({length}, (_, index) => index + 1);
+  }
+
+  next() {
+    return this.array.splice(returnRandomNumber(0, this.array.length - 1), 1).shift();
+  }
+}
+export { getRandomArrayElement, returnRandomNumber, RandomGenerator };
