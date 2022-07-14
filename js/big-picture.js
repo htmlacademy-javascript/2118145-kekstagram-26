@@ -1,4 +1,5 @@
 import { initPopup } from './popup.js';
+import './effects.js';
 const bigPictureElement = document.querySelector('.big-picture');
 const urlPicture = bigPictureElement.querySelector('.big-picture__img img');
 const descrPicture = bigPictureElement.querySelector('.big-picture__social .social__caption');
