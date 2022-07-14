@@ -34,7 +34,7 @@ class RandomGenerator {
   }
 
   next() {
-    return this.array.splice(returnRandomNumber(0, this.array.length - 1), 1).shift();
+    return this.array.splice(returnRandomNumber(1, this.array.length - 1), 1).shift();
   }
 }
 export { getRandomArrayElement, returnRandomNumber, RandomGenerator };
