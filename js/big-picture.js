@@ -1,4 +1,5 @@
 import { initPopup } from './popup.js';
+import './effects.js';
 const bigPictureElement = document.querySelector('.big-picture');
 const urlPicture = bigPictureElement.querySelector('.big-picture__img img');
 const descrPicture = bigPictureElement.querySelector('.big-picture__social .social__caption');
@@ -12,7 +13,7 @@ const commentsLoader = document.querySelector('.comments-loader');
 
 socialCommentCount.classList.remove('hidden');
 
-const { openPopup } = initPopup(bigPictureElement,  removeLoadHadler);
+const { openPopup } = initPopup(bigPictureElement, removeLoadHadler);
 
 /** Function clears old comments
 **/
@@ -44,35 +45,34 @@ function createComments(itemComments) {
   });
   return comments;
 }
-
-function showNextCommentsPage(comments, page, onPage, maxCount, totalPages) {
-  commentsContainer.appendChild(createComments(comments.slice((page - 1) * onPage, onPage * page)));
-  socialCommentCount.textContent = `${Math.min(page * onPage, maxCount)} из ${maxCount} коментариев`;
-  page++;
-  if (page > totalPages) {
-    commentsLoader.classList.add('hidden');
-  }
-}
-
-function addLoadHandler(maxCount){
+function addLoadHandler(maxCount) {
   commentsLoader.addEventListener('click', showNextCommentsPage);
   commentsCount.textContent = maxCount;
 }
-function removeLoadHadler(){
+function removeLoadHadler() {
   commentsLoader.removeEventListener('click', showNextCommentsPage);
 }
+
+let showNextCommentsPage;
 /** The function replaces old comments with new ones replaces old comments with new ones by appending to the HTML parent element
  * @param {object} itemReplaceComment
 **/
-function replaceComments(itemReplaceComment) {
+function replaceComments(comments) {
   clearComments();
-  const maxCount = itemReplaceComment.length;
-  const  comment = itemReplaceComment;
+  const maxCount = comments.length;
   const onPage = 5;
   const totalPages = Math.ceil(maxCount / 5);
-  const page = 1;
+  let page = 1;
   commentsLoader.classList.remove('hidden');
-  showNextCommentsPage(comment, page, onPage, totalPages, maxCount, totalPages);
+  showNextCommentsPage = function showNextCommentsPage() {
+    commentsContainer.appendChild(createComments(comments.slice((page - 1) * onPage, onPage * page)));
+    socialCommentCount.textContent = `${Math.min(page * onPage, maxCount)} из ${maxCount} коментариев`;
+    page++;
+    if (page > totalPages) {
+      commentsLoader.classList.add('hidden');
+    }
+  };
+  showNextCommentsPage();
   addLoadHandler(maxCount);
 }
 
