@@ -1,3 +1,4 @@
+import { resetEffect } from "./effects.js";
 export function initPopup(el,{onClose}={}) {
 
   const closeElement = el.querySelector('.cancel');
@@ -30,6 +31,7 @@ export function initPopup(el,{onClose}={}) {
     el.classList.add('hidden');
     document.body.style.overflow = 'auto';
     removeCloseHadlers();
+    resetEffect();
     if(onclose) {
       onClose();
     }

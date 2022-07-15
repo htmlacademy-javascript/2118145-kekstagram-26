@@ -1,10 +1,49 @@
-import { scaleEvents } from "./scale.js";
-const effectButton = document.querySelectorAll('.effects__radio');
+
 const sliderElement = document.querySelector('.effect-level__slider');
-const effectLevelValue = document.querySelector('.effect-level__value');
+const effectsElement = document.querySelector('.effects');
+const effectInputElement = document.querySelector('.effect-level__value');
+const effectLevelElement = document.querySelector('.effect-level');
+const imgUploadPreview = document.querySelector('.img-upload__preview img');
+
+function resetEffect() {
+  imgUploadPreview.style.filter = '';
+  effectLevelElement.classList.add('hidden');
+}
 
 function levelValue() {
-  effectLevelValue.value = 0;
+  let currentEffect = 'none';
+  const EFFECTS = {
+    'effect-chrome':
+    {
+      filter: 'grayscale',
+      unit: '',
+      slider: { step: 0.1, min: 0, max: 1 }
+    },
+    'effect-sepia':
+    {
+      filter: 'sepia',
+      unit: '',
+      slider: { step: 0.1, min: 0, max: 1 }
+    },
+    'effect-marvin':
+    {
+      filter: 'invert',
+      unit: '%',
+      slider: { step: 1, min: 0, max: 100 }
+    },
+    'effect-phobos':
+    {
+      filter: 'blur',
+      unit: 'px',
+      slider: { step: 0.1, min: 0, max: 3 }
+    },
+    'effect-heat':
+    {
+      filter: 'brightness',
+      unit: '',
+      slider: { step: 0.1, min: 1, max: 3 }
+    },
+  };
 
   noUiSlider.create(sliderElement, {
     range: {
@@ -18,32 +57,36 @@ function levelValue() {
   });
 
   sliderElement.noUiSlider.on('update', () => {
-    effectLevelValue.value = sliderElement.noUiSlider.get();
-  });
-
-  effectLevelValue.addEventListener('change', (evt) => {
-    if (evt.target) {
-      previewEffectsChrome.noUiSlider.updateOptions({
-        range: {
-          min: 1,
-          max: 10,
-        },
-        step: 0.1,
-      });
+    effectInputElement.value = sliderElement.noUiSlider.get();
+    if (currentEffect in EFFECTS) {
+      const effect = EFFECTS[currentEffect];
+      imgUploadPreview.style.filter = `${effect.filter}(${effectInputElement.value}${effect.unit})`;
     } else {
-      previewEffectsChrome.noUiSlider.updateOptions({
-        range: {
-          min: 0,
-          max: 100,
-        },
-        step: 0.1,
-      });
+      resetEffect();
     }
   });
 
+  effectsElement.addEventListener('change', (evt) => {
+    currentEffect = evt.target.id;
+    if (currentEffect in EFFECTS) {
+      effectLevelElement.classList.remove('hidden');
+      const effect = EFFECTS[currentEffect];
+      sliderElement.noUiSlider.updateOptions({
+        range: {
+          min: effect.slider.min,
+          max: effect.slider.max,
+        },
+        step: effect.slider.step,
+      });
+    } else {
+      currentEffect = 'none';
+      resetEffect();
+    }
+  });
 }
+
 function editorImage() {
-  scaleEvents();
   levelValue();
 }
-export { editorImage };
+
+export { editorImage, resetEffect };
