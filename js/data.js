@@ -5,6 +5,8 @@ import { ARRAY_OF_USER_MESSAGES, ARRAY_OF_USER_NAMES, ARRAY_OF_IMAGES_DESCRIPTIO
 let userProfileId = 1;
 const commentIdGenerator = new RandomGenerator(USER_PROFILES_MAX_ID_COUNT * USER_PROFILE_MAX_COMMENTS_COUNT);
 const userIdGenerator = new RandomGenerator(USER_PROFILES_MAX_ID_COUNT);
+
+// const getProfData = getData(console.log, console.error);
 /** Function is generate comment
  * @param {number} commentId
  * @return {object}
@@ -35,13 +37,13 @@ function getAvatar() {
   }
   return nextValue;
 }
-
 /** Function is generate profile
  * @param {number} userProfileId
  * @return {object}
 **/
-function generateUserProfile() {
+function generateUserProfile(data) {
   getAvatar();
+  console.log(data);
   return {
     id: userIdGenerator.next(),
     url: `photos/${getProfileUrlId()}.jpg`,
@@ -58,4 +60,4 @@ function generateUserProfile() {
 function generateUserProfiles(length) {
   return Array.from({ length }, generateUserProfile);
 }
-export { generateUserProfiles };
+export { generateUserProfiles,generateUserProfile };
