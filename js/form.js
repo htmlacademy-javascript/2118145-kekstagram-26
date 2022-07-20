@@ -1,5 +1,8 @@
 import { initPopup } from './popup.js';
+import { sendData } from './query.js';
+import { createTemplateMessage, createTemplateError } from './messages.js';
 import { MAX_COUNT_HASHTAGS, MAX_LENGTH_HASHTAG, MIN_LENGTH_HASHTAG, MAX_LENGTH_DESCRIPTION } from './constants.js';
+import { resetEffect } from './effects.js';
 const uploadPopupForm = document.querySelector('.img-upload__overlay');
 const uploadInput = document.querySelector('#upload-file');
 
@@ -129,8 +132,10 @@ function initValid() {
   const descriptionValidator = new DescriptionValidator(pristine, description);
 
   form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
     if (!pristine.validate()) {
-      evt.preventDefault();
+      closePopup();
+      sendData(() => { return createTemplateMessage('#success', 'Удачная загрузка', '.success__title'); }, () => { return createTemplateError('#load-error', 'Неудачная загрузка', '.error__title'); }, form);
     }
   });
   hashtag.addEventListener('keydown', (evt) => {
@@ -146,9 +151,10 @@ function initValid() {
 }
 
 
-const { openPopup } = initPopup(uploadPopupForm, {
+const { openPopup,closePopup } = initPopup(uploadPopupForm, {
   onClose: () => {
     uploadInput.value = '';
+    resetEffect();
   }
 });
 export { openPopup as showUploadForm, initValid };

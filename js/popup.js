@@ -50,6 +50,6 @@ export function initPopup(el,{onClose}={}) {
       closePopup();
     }
   }
-  return { openPopup };
+  return { openPopup,closePopup };
 }
 // export { initPopup };

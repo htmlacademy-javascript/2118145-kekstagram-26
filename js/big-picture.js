@@ -13,7 +13,7 @@ const commentsLoader = document.querySelector('.comments-loader');
 
 socialCommentCount.classList.remove('hidden');
 
-const { openPopup } = initPopup(bigPictureElement, removeLoadHadler);
+const { openPopup, closePopup } = initPopup(bigPictureElement, removeLoadHadler);
 
 /** Function clears old comments
 **/
@@ -86,4 +86,4 @@ function showBigPicture(item) {
   descrPicture.textContent = item.description;
   countLikesPicture.textContent = item.likes;
 }
-export { showBigPicture };
+export { showBigPicture, closePopup as closeBigPicture };
