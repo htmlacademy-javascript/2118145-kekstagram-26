@@ -11,7 +11,7 @@ function createPicture(item) {
   clonedPictureElement.querySelector('.picture__img').src = item.url;
   clonedPictureElement.querySelector('.picture__comments').textContent = item.comments.length;
   clonedPictureElement.querySelector('.picture__likes').textContent = item.likes;
-  clonedPictureElement.querySelector('.picture').addEventListener('click',() => showBigPicture(item));
+  clonedPictureElement.querySelector('.picture').addEventListener('click', () => showBigPicture(item));
   return clonedPictureElement;
 }
 
@@ -33,6 +33,9 @@ function createPictures(items) {
  * @return {DocumentFragment}
 **/
 function drawPictures(items) {
+  picturesContainer.querySelectorAll('.picture').forEach((picture) => {
+    picture.remove();
+  });
   picturesContainer.appendChild(createPictures(items));
 }
 export { drawPictures };

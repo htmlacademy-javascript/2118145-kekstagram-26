@@ -4,7 +4,7 @@ const effectsElement = document.querySelector('.effects');
 const effectInputElement = document.querySelector('.effect-level__value');
 const effectLevelElement = document.querySelector('.effect-level');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
-
+let isLevelInitated = false;
 function resetEffect() {
   imgUploadPreview.style.filter = '';
   effectLevelElement.classList.add('hidden');
@@ -83,10 +83,13 @@ function levelValue() {
       resetEffect();
     }
   });
+  isLevelInitated = true;
 }
 
 function editorImage() {
-  levelValue();
+  if (!isLevelInitated) {
+    levelValue();
+  }
 }
 
 export { editorImage, resetEffect };

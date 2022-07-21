@@ -32,7 +32,7 @@ export function initPopup(el,{onClose}={}) {
     document.body.style.overflow = 'auto';
     removeCloseHadlers();
     resetEffect();
-    if(onclose) {
+    if(onClose) {
       onClose();
     }
   }

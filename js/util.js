@@ -28,13 +28,31 @@ function getRandomArrayElement(array) {
   return array[returnRandomNumber(0, array.length - 1)];
 }
 
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+function throttle(callback, delayBetweenFrames) {
+  let lastTime = 0;
+  return (...rest) => {
+    const now = new Date();
+    if (now - lastTime >= delayBetweenFrames) {
+      callback.apply(this, rest);
+      lastTime = now;
+    }
+  };
+}
+
 class RandomGenerator {
   constructor(length) {
-    this.array = Array.from({length}, (_, index) => index + 1);
+    this.array = Array.from({ length }, (_, index) => index + 1);
   }
 
   next() {
     return this.array.splice(returnRandomNumber(1, this.array.length - 1), 1).shift();
   }
 }
-export { getRandomArrayElement, returnRandomNumber, RandomGenerator };
+export { getRandomArrayElement, returnRandomNumber, RandomGenerator, shuffle,throttle };

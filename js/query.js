@@ -1,6 +1,6 @@
+import { showDataErrorMessage } from './messages.js';
 const getRequestUrl = 'https://26.javascript.pages.academy/kekstagram/data';
 const postRequestUrl = 'https://26.javascript.pages.academy/kekstagram';
-
 async function getData() {
   try {
     const response = await fetch(getRequestUrl);
@@ -9,24 +9,14 @@ async function getData() {
     }
     return await response.json();
   } catch (error) {
-    return createTemplateMessage('#load-error',error.message);
+    showDataErrorMessage(error.message);
   }
 }
-async function sendData(onSuccess,onError,form) {
-  try {
-    const response = await fetch(postRequestUrl, {
-      method: 'POST',
-      body: new FormData(form)
-    });
-    if (!response.ok) {
-      throw new Error(`Не удалось отправить форму. Попробуйте еще раз. Ошибка:${response.status} — ${response.statusText}`);
-    }
-    onSuccess();
-    return await response.json();
-  } catch (error) {
-    return onError();
-  }
+async function sendData(form) {
+  const response = await fetch(postRequestUrl, {
+    method: 'POST',
+    body: new FormData(form)
+  });
+  return await response.json();
 }
-
-
-export { getData,sendData };
+export { getData, sendData };

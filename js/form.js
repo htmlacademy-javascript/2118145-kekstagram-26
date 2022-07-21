@@ -1,6 +1,6 @@
 import { initPopup } from './popup.js';
 import { sendData } from './query.js';
-import { createTemplateMessage, createTemplateError } from './messages.js';
+import { showSuccessMessage, showErrorMessage } from './messages.js';
 import { MAX_COUNT_HASHTAGS, MAX_LENGTH_HASHTAG, MIN_LENGTH_HASHTAG, MAX_LENGTH_DESCRIPTION } from './constants.js';
 import { resetEffect } from './effects.js';
 const uploadPopupForm = document.querySelector('.img-upload__overlay');
@@ -33,8 +33,6 @@ class HashTagValidator {
     this.errorMessages.clear();
     const isCountValid = this.validCountTags(tags);
     return isCountValid && tags.reduce((status, value) => status && this.validateTag(value), true);
-
-
   }
   validateTag(value) {
     const isTagNeedFormat = this.validateRegexTag(value);
@@ -96,24 +94,19 @@ class DescriptionValidator {
     return Array.from(this.errorMessages).join(', ');
   }
   validateDescr(value) {
-    const description = value.split(' ').filter(Boolean);
     this.errorMessages.clear();
-    const isLengthValid = this.validLengthDescr(description);
-    return isLengthValid && description.reduce((status, value) => status && this.validateDescr(value), true);
+    const isLengthValid = this.validLengthDescr(this.textarea);
+    return !value || isLengthValid;
   }
   getLengthDescrErrorMessage() {
     return this.lengthDescrErrorMessage;
   }
   validLengthDescr(value) {
-    value.forEach((item) => {
-      if (item.length > MAX_LENGTH_DESCRIPTION) {
-        this.error(this.getLengthDescrErrorMessage());
-        return false;
-      } else {
-        return true;
-      }
-    });
-
+    if (value.length > MAX_LENGTH_DESCRIPTION) {
+      this.error(this.getLengthDescrErrorMessage());
+      return false;
+    }
+    return true;
   }
   error(message) {
     this.errorMessages.add(message);
@@ -133,9 +126,15 @@ function initValid() {
 
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    if (!pristine.validate()) {
-      closePopup();
-      sendData(() => { return createTemplateMessage('#success', 'Удачная загрузка', '.success__title'); }, () => { return createTemplateError('#load-error', 'Неудачная загрузка', '.error__title'); }, form);
+    if (pristine.validate()) {
+      sendData(form)
+        .then(() => {
+          closePopup();
+          showSuccessMessage('Удачная загрузка');
+        })
+        .catch(() => {
+          showErrorMessage('Неудачная загрузка');
+        });
     }
   });
   hashtag.addEventListener('keydown', (evt) => {
@@ -149,9 +148,7 @@ function initValid() {
     }
   });
 }
-
-
-const { openPopup,closePopup } = initPopup(uploadPopupForm, {
+const { openPopup, closePopup } = initPopup(uploadPopupForm, {
   onClose: () => {
     uploadInput.value = '';
     resetEffect();
