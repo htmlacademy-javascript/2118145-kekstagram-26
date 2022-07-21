@@ -13,7 +13,7 @@ function initFilters(profiles, cb) {
       formButtons.forEach((formButton) => {
         if (formButton !== evt.target) {
           formButton.classList.remove('img-filters__button--active');
-        }else{
+        } else {
           formButton.classList.add('img-filters__button--active');
         }
       });
@@ -37,6 +37,7 @@ function initFilters(profiles, cb) {
       }
     }
   }, DELAY_UPDATING_FILTERS);
+
   formEl.addEventListener('click', doFiltering);
   cb(profiles);
 }
