@@ -1,56 +1,67 @@
-// const templateSuccess = document.querySelector('#success').content;
-// const templateLoadError = document.querySelector('#load-error').content;
-// const templateError = document.querySelector('#error-data').content;
-// import { initPopup } from './popup.js';
-
-
-function createTemplateMessage(item, message, title) {
-  const templateMessage = document.querySelector(item).content;
-  return createInfoBlock(templateMessage, message, title);
-}
-
-function createTemplateError(item, error, title) {
-  const templateError = document.querySelector(item).content;
-  return createInfoBlock(templateError, error, title);
-}
-
-function handlerButtonMessage(messageContainer) {
-  messageContainer.querySelector('.success__button').addEventListener('click', () => {
-    messageContainer.remove();
+function showSuccessMessage(message) {
+  return createInfoBlock(message, {
+    templateId: '#success',
+    containerSelector: '.success',
+    titleSelector: '.success__title',
+    buttonSelector: '.success__button'
   });
 }
 
-function handlerButtonError(errorContainer) {
-  errorContainer.querySelector('.error__button').addEventListener('click', () => {
-    errorContainer.remove();
+function showDataErrorMessage(error) {
+  return createInfoBlock(error, {
+    templateId: '#error-data',
+    containerSelector: '.error',
+    titleSelector: '.error__title',
+    buttonSelector: '.error__button',
+    autoclose: 500
   });
 }
-// function escapeHandler(block) {
-//   block.addEventListener('keydown', (evt) => {
-//     console.log(evt.target.key);
-//     if (evt.key == 'Escape') {
-//       block.classList.add('hidden');
-//       document.body.style.overflow = 'auto';
-//       document.body.removeEventListener('keydown', escapeCloseHandler);
-//     }
-//   });
-// }
-function createInfoBlock(messageTemplate, message, title) {
+
+function showErrorMessage(message) {
+  return createInfoBlock(message, {
+    templateId: '#load-error',
+    containerSelector: '.error',
+    titleSelector: '.error__title',
+    buttonSelector: '.error__button'
+  });
+}
+
+function createInfoBlock(message, { templateId, titleSelector, containerSelector, buttonSelector, autoclose = false }) {
+  const messageTemplate = document.querySelector(templateId).content;
   const clonedTemplate = messageTemplate.cloneNode(true);
-  const messageContainer = clonedTemplate.querySelector('.success');
-  const errorContainer = clonedTemplate.querySelector('.error');
-  if (messageContainer != null) {
-    handlerButtonMessage(messageContainer);
-    // escapeHandler(messageContainer);
+  const messageContainer = clonedTemplate.querySelector(containerSelector);
+  messageContainer.style.zIndex = '1000';
+  const titleElement = clonedTemplate.querySelector(titleSelector);
+  const close = () => {
+    messageContainer.remove();
+    document.body.removeEventListener('keydown', escapeCloseHandler, true);
+  };
+  function escapeCloseHandler(evt) {
+    if (evt.key === 'Escape') {
+      evt.stopPropagation();
+      close();
+    }
   }
-  if (errorContainer != null) {
-    handlerButtonError(errorContainer);
-    // escapeHandler(errorContainer);
+
+  if (titleElement) {
+    titleElement.textContent = message;
   }
-  clonedTemplate.querySelector(title).textContent = message;
-  return document.body.appendChild(clonedTemplate);
+
+  if (autoclose) {
+    setTimeout(close, autoclose);
+  }
+
+  if (buttonSelector) {
+    const button = messageContainer.querySelector(buttonSelector);
+    button && button.addEventListener('click', close);
+  }
+
+  messageContainer.addEventListener('click', evt => {
+    if (evt.target === messageContainer) {
+      close();
+    }
+  });
+  document.body.addEventListener('keydown', escapeCloseHandler, true);
+  document.body.appendChild(clonedTemplate);
 }
-
-
-
-export { createTemplateMessage, createTemplateError };
+export { showSuccessMessage, showDataErrorMessage, showErrorMessage };
