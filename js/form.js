@@ -116,6 +116,7 @@ function initValid() {
   const hashtag = document.querySelector('.img-upload__field-wrapper  .text__hashtags');
   const description = document.querySelector('.img-upload__field-wrapper  .text__description');
   const form = document.querySelector('.img-upload__form');
+
   const pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper',
@@ -154,5 +155,6 @@ const { openPopup, closePopup } = initPopup(uploadPopupForm, {
     resetEffect();
   }
 });
+
 export { openPopup as showUploadForm, initValid };
 

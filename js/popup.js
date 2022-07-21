@@ -1,7 +1,10 @@
-import { resetEffect } from "./effects.js";
-export function initPopup(el,{onClose}={}) {
+import { resetEffect } from './effects.js';
+export function initPopup(el, { onClose } = {}) {
 
   const closeElement = el.querySelector('.cancel');
+  const imgUploadPreview = document.querySelector('.img-upload__preview img');
+  const uploadInput = document.querySelector('#upload-file');
+  const effectsPreviews = document.querySelectorAll('.effects__preview');
 
   /** The function adds a click and click event handler for the close button
   **/
@@ -23,6 +26,7 @@ export function initPopup(el,{onClose}={}) {
     el.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     addCloseHandlers();
+    showUploadImage();
   }
 
   /** The function hides the window when the "Close window" button is clicked
@@ -32,7 +36,7 @@ export function initPopup(el,{onClose}={}) {
     document.body.style.overflow = 'auto';
     removeCloseHadlers();
     resetEffect();
-    if(onClose) {
+    if (onClose) {
       onClose();
     }
   }
@@ -50,6 +54,17 @@ export function initPopup(el,{onClose}={}) {
       closePopup();
     }
   }
-  return { openPopup,closePopup };
+
+  /** The function upload our big image and preview
+  **/
+  function showUploadImage() {
+    imgUploadPreview.src = URL.createObjectURL(uploadInput.files[0]);
+
+    effectsPreviews.forEach((effectsPreview) => {
+      effectsPreview.style.backgroundImage = `url(${imgUploadPreview.src})`;
+    });
+
+  }
+  return { openPopup, closePopup };
 }
 // export { initPopup };
