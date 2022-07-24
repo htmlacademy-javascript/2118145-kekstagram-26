@@ -15,11 +15,11 @@ function returnRandomNumber(min, max) {
 }
 
 /** Function to check comment length
- * @param {string} checkStr
+ * @param {string} checkString
  * @param {number} maxLength
  * @return {boolean}
 **/
-const checkLengthString = (checkStr, maxLength) => checkStr.length <= maxLength;
+const checkLengthString = (checkString, maxLength) => checkString.length < maxLength;
 
 /** Function is return random element from array(etc. message,name)
  * @return {string}
@@ -30,7 +30,7 @@ function getRandomArrayElement(array) {
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
-    let j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
 }
@@ -55,4 +55,4 @@ class RandomGenerator {
     return this.array.splice(returnRandomNumber(1, this.array.length - 1), 1).shift();
   }
 }
-export { getRandomArrayElement, returnRandomNumber, RandomGenerator, shuffle,throttle };
+export { getRandomArrayElement, returnRandomNumber, RandomGenerator, shuffle, throttle, checkLengthString };
