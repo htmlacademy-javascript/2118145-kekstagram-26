@@ -43,7 +43,6 @@ function getAvatar() {
 **/
 function generateUserProfile(data) {
   getAvatar();
-  console.log(data);
   return {
     id: userIdGenerator.next(),
     url: `photos/${getProfileUrlId()}.jpg`,
