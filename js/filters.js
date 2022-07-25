@@ -37,7 +37,7 @@ function initFilters(profiles, cb) {
       }
     }
   }, DELAY_UPDATING_FILTERS);
-
+  
   formElement.addEventListener('click', doFiltering);
 
   cb(profiles);
