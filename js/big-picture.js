@@ -6,12 +6,9 @@ const countLikesPicture = bigPictureElement.querySelector('.big-picture__social 
 const commentsContainer = bigPictureElement.querySelector('.social__comments');
 const commentContainer = bigPictureElement.querySelector('.social__comment').cloneNode(true);
 const commentsCount = bigPictureElement.querySelector('.comments-count');
-
 const socialCommentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
-
 socialCommentCount.classList.remove('hidden');
-
 const { openPopup, closePopup } = initPopup(bigPictureElement, removeLoadHandler);
 
 /** Function clears old comments

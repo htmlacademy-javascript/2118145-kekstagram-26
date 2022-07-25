@@ -1,8 +1,8 @@
 import { resetEffect } from './effects.js';
 import { resetScale } from './scale.js';
-export function initPopup(el, { onClose } = {}) {
+export function initPopup(element, { onClose } = {}) {
 
-  const closeElement = el.querySelector('.cancel');
+  const closeElement = element.querySelector('.cancel');
 
   /** The function adds a click and click event handler for the close button
   **/
@@ -21,7 +21,7 @@ export function initPopup(el, { onClose } = {}) {
   /** The function  open a full size window with photo
   **/
   function openPopup() {
-    el.classList.remove('hidden');
+    element.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
     addCloseHandlers();
@@ -30,7 +30,7 @@ export function initPopup(el, { onClose } = {}) {
   /** The function hides the window when the "Close window" button is clicked
   **/
   function closePopup() {
-    el.classList.add('hidden');
+    element.classList.add('hidden');
     document.body.classList.remove('modal-open');
     document.body.style.overflow = 'auto';
     removeCloseHandlers();
