@@ -31,7 +31,7 @@ function initFilters(profiles, cb) {
       }
       case 'filter-discussed': {
         const sortedProfiles = profiles.slice();
-        sortedProfiles.sort((a, b) => b.comments.length - a.comments.lenght);
+        sortedProfiles.sort((a, b) => b.comments.length - a.comments.length);
         cb(sortedProfiles);
         break;
       }
