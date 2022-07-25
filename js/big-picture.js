@@ -1,8 +1,7 @@
 import { initPopup } from './popup.js';
-import './effects.js';
 const bigPictureElement = document.querySelector('.big-picture');
 const urlPicture = bigPictureElement.querySelector('.big-picture__img img');
-const descrPicture = bigPictureElement.querySelector('.big-picture__social .social__caption');
+const descriptionPicture = bigPictureElement.querySelector('.big-picture__social .social__caption');
 const countLikesPicture = bigPictureElement.querySelector('.big-picture__social .likes-count');
 const commentsContainer = bigPictureElement.querySelector('.social__comments');
 const commentContainer = bigPictureElement.querySelector('.social__comment').cloneNode(true);
@@ -13,7 +12,7 @@ const commentsLoader = document.querySelector('.comments-loader');
 
 socialCommentCount.classList.remove('hidden');
 
-const { openPopup, closePopup } = initPopup(bigPictureElement, removeLoadHadler);
+const { openPopup, closePopup } = initPopup(bigPictureElement, removeLoadHandler);
 
 /** Function clears old comments
 **/
@@ -45,15 +44,15 @@ function createComments(itemComments) {
   });
   return comments;
 }
+let showNextCommentsPage;
 function addLoadHandler(maxCount) {
   commentsLoader.addEventListener('click', showNextCommentsPage);
   commentsCount.textContent = maxCount;
 }
-function removeLoadHadler() {
+function removeLoadHandler() {
   commentsLoader.removeEventListener('click', showNextCommentsPage);
 }
 
-let showNextCommentsPage;
 /** The function replaces old comments with new ones replaces old comments with new ones by appending to the HTML parent element
  * @param {object} itemReplaceComment
 **/
@@ -64,7 +63,7 @@ function replaceComments(comments) {
   const totalPages = Math.ceil(maxCount / 5);
   let page = 1;
   commentsLoader.classList.remove('hidden');
-  showNextCommentsPage = function showNextCommentsPage() {
+  showNextCommentsPage = function () {
     commentsContainer.appendChild(createComments(comments.slice((page - 1) * onPage, onPage * page)));
     socialCommentCount.textContent = `${Math.min(page * onPage, maxCount)} из ${maxCount} коментариев`;
     page++;
@@ -83,7 +82,7 @@ function showBigPicture(item) {
   openPopup();
   replaceComments(item.comments);
   urlPicture.src = item.url;
-  descrPicture.textContent = item.description;
+  descriptionPicture.textContent = item.description;
   countLikesPicture.textContent = item.likes;
 }
 export { showBigPicture, closePopup as closeBigPicture };

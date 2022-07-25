@@ -10,7 +10,7 @@ function resetEffect() {
   effectLevelElement.classList.add('hidden');
 }
 
-function levelValue() {
+function setLevelValue() {
   let currentEffect = 'none';
   const EFFECTS = {
     'effect-chrome':
@@ -88,7 +88,7 @@ function levelValue() {
 
 function editorImage() {
   if (!isLevelInitated) {
-    levelValue();
+    setLevelValue();
   }
 }
 
