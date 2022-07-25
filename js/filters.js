@@ -31,15 +31,14 @@ function initFilters(profiles, cb) {
       }
       case 'filter-discussed': {
         const sortedProfiles = profiles.slice();
-        sortedProfiles.sort((a, b) => b.comments.length - a.comments.length);
+        sortedProfiles.sort((a, b) => b.comments.length - a.comments.lenght);
         cb(sortedProfiles);
         break;
       }
     }
   }, DELAY_UPDATING_FILTERS);
-  
-  formElement.addEventListener('click', doFiltering);
 
+  formElement.addEventListener('click', doFiltering);
   cb(profiles);
 }
 export { initFilters };
