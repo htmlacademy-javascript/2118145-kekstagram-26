@@ -1,10 +1,6 @@
-import { resetEffect } from './effects.js';
-export function initPopup(el, { onClose } = {}) {
+export function initPopup(element, { onClose, onOpen } = {}) {
 
-  const closeElement = el.querySelector('.cancel');
-  const imgUploadPreview = document.querySelector('.img-upload__preview img');
-  const uploadInput = document.querySelector('#upload-file');
-  const effectsPreviews = document.querySelectorAll('.effects__preview');
+  const closeElement = element.querySelector('.cancel');
 
   /** The function adds a click and click event handler for the close button
   **/
@@ -15,7 +11,7 @@ export function initPopup(el, { onClose } = {}) {
 
   /** The function removes a click and click event handler for the close button
   **/
-  function removeCloseHadlers() {
+  function removeCloseHandlers() {
     document.body.removeEventListener('keydown', escapeCloseHandler);
     closeElement.removeEventListener('click', closeHandler);
   }
@@ -23,19 +19,22 @@ export function initPopup(el, { onClose } = {}) {
   /** The function  open a full size window with photo
   **/
   function openPopup() {
-    el.classList.remove('hidden');
+    element.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
     addCloseHandlers();
-    showUploadImage();
+    if (onOpen) {
+      onOpen();
+    }
   }
 
   /** The function hides the window when the "Close window" button is clicked
   **/
   function closePopup() {
-    el.classList.add('hidden');
+    element.classList.add('hidden');
+    document.body.classList.remove('modal-open');
     document.body.style.overflow = 'auto';
-    removeCloseHadlers();
-    resetEffect();
+    removeCloseHandlers();
     if (onClose) {
       onClose();
     }
@@ -53,17 +52,6 @@ export function initPopup(el, { onClose } = {}) {
     if (evt.key === 'Escape') {
       closePopup();
     }
-  }
-
-  /** The function upload our big image and preview
-  **/
-  function showUploadImage() {
-    imgUploadPreview.src = URL.createObjectURL(uploadInput.files[0]);
-
-    effectsPreviews.forEach((effectsPreview) => {
-      effectsPreview.style.backgroundImage = `url(${imgUploadPreview.src})`;
-    });
-
   }
   return { openPopup, closePopup };
 }

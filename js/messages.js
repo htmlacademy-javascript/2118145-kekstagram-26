@@ -13,7 +13,7 @@ function showDataErrorMessage(error) {
     containerSelector: '.error',
     titleSelector: '.error__title',
     buttonSelector: '.error__button',
-    autoclose: 500
+    autoClose: 500
   });
 }
 
@@ -26,7 +26,7 @@ function showErrorMessage(message) {
   });
 }
 
-function createInfoBlock(message, { templateId, titleSelector, containerSelector, buttonSelector, autoclose = false }) {
+function createInfoBlock(message, { templateId, titleSelector, containerSelector, buttonSelector, autoClose = false }) {
   const messageTemplate = document.querySelector(templateId).content;
   const clonedTemplate = messageTemplate.cloneNode(true);
   const messageContainer = clonedTemplate.querySelector(containerSelector);
@@ -36,6 +36,7 @@ function createInfoBlock(message, { templateId, titleSelector, containerSelector
     messageContainer.remove();
     document.body.removeEventListener('keydown', escapeCloseHandler, true);
   };
+
   function escapeCloseHandler(evt) {
     if (evt.key === 'Escape') {
       evt.stopPropagation();
@@ -47,16 +48,18 @@ function createInfoBlock(message, { templateId, titleSelector, containerSelector
     titleElement.textContent = message;
   }
 
-  if (autoclose) {
-    setTimeout(close, autoclose);
+  if (autoClose) {
+    setTimeout(close, autoClose);
   }
 
   if (buttonSelector) {
     const button = messageContainer.querySelector(buttonSelector);
-    button && button.addEventListener('click', close);
+    if (button) {
+      button.addEventListener('click', close);
+    }
   }
 
-  messageContainer.addEventListener('click', evt => {
+  messageContainer.addEventListener('click', (evt) => {
     if (evt.target === messageContainer) {
       close();
     }

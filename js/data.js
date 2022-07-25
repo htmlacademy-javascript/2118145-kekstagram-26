@@ -2,11 +2,9 @@
 import { returnRandomNumber, getRandomArrayElement, RandomGenerator } from './util.js';
 import { getProfileUrlId } from './data-utils.js';
 import { ARRAY_OF_USER_MESSAGES, ARRAY_OF_USER_NAMES, ARRAY_OF_IMAGES_DESCRIPTION, USER_PROFILE_MIN_LIKES_COUNT, USER_PROFILE_MAX_LIKES_COUNT, USER_PROFILE_MIN_COMMENTS_COUNT, USER_PROFILE_MAX_COMMENTS_COUNT, USER_PROFILES_MAX_ID_COUNT } from './constants.js';
-let userProfileId = 1;
 const commentIdGenerator = new RandomGenerator(USER_PROFILES_MAX_ID_COUNT * USER_PROFILE_MAX_COMMENTS_COUNT);
 const userIdGenerator = new RandomGenerator(USER_PROFILES_MAX_ID_COUNT);
 
-// const getProfData = getData(console.log, console.error);
 /** Function is generate comment
  * @param {number} commentId
  * @return {object}
@@ -41,9 +39,8 @@ function getAvatar() {
  * @param {number} userProfileId
  * @return {object}
 **/
-function generateUserProfile(data) {
+function generateUserProfile() {
   getAvatar();
-  console.log(data);
   return {
     id: userIdGenerator.next(),
     url: `photos/${getProfileUrlId()}.jpg`,
