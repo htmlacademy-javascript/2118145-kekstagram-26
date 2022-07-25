@@ -32,17 +32,16 @@ function addEventScaleMinus(step) {
   });
 }
 
-function changeScaleImage(currentValue) {
-  console.log(currentValue)
-  bigImage.style.transform = `scale(${currentValue}%)`;
+function changeScaleImage(defaultValue) {
+  bigImage.style.transform = `scale(${defaultValue}%)`;
 }
 
-let scaleEventsInitiated = false
+let scaleEventsInitiated = false;
 function initScale() {
   if (!scaleEventsInitiated) {
     addEventScalePlus(25);
     addEventScaleMinus(25);
-    scaleEventsInitiated = true
+    scaleEventsInitiated = true;
   }
 }
 export { initScale, resetScale };

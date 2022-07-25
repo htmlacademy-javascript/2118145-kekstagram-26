@@ -12,7 +12,7 @@ function resetEffect() {
   effectLevelElement.classList.add('hidden');
   effectsRadioElements.forEach((effectsRadio, index) => {
     effectsRadio.checked = index === 0;
-  })
+  });
 }
 
 function setLevelValue() {
