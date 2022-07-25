@@ -53,10 +53,12 @@ function createInfoBlock(message, { templateId, titleSelector, containerSelector
 
   if (buttonSelector) {
     const button = messageContainer.querySelector(buttonSelector);
-    button && button.addEventListener('click', close);
+    if (button) {
+      button.addEventListener('click', close);
+    }
   }
 
-  messageContainer.addEventListener('click', evt => {
+  messageContainer.addEventListener('click', (evt) => {
     if (evt.target === messageContainer) {
       close();
     }

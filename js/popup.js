@@ -1,5 +1,6 @@
-import { resetEffect } from "./effects.js";
-export function initPopup(el,{onClose}={}) {
+import { resetEffect } from './effects.js';
+import { resetScale } from './scale.js';
+export function initPopup(el, { onClose } = {}) {
 
   const closeElement = el.querySelector('.cancel');
 
@@ -12,7 +13,7 @@ export function initPopup(el,{onClose}={}) {
 
   /** The function removes a click and click event handler for the close button
   **/
-  function removeCloseHadlers() {
+  function removeCloseHandlers() {
     document.body.removeEventListener('keydown', escapeCloseHandler);
     closeElement.removeEventListener('click', closeHandler);
   }
@@ -22,6 +23,7 @@ export function initPopup(el,{onClose}={}) {
   function openPopup() {
     el.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+    document.body.classList.add('modal-open');
     addCloseHandlers();
   }
 
@@ -29,10 +31,12 @@ export function initPopup(el,{onClose}={}) {
   **/
   function closePopup() {
     el.classList.add('hidden');
+    document.body.classList.remove('modal-open');
     document.body.style.overflow = 'auto';
-    removeCloseHadlers();
+    removeCloseHandlers();
     resetEffect();
-    if(onClose) {
+    resetScale();
+    if (onClose) {
       onClose();
     }
   }
@@ -50,6 +54,6 @@ export function initPopup(el,{onClose}={}) {
       closePopup();
     }
   }
-  return { openPopup,closePopup };
+  return { openPopup, closePopup };
 }
 // export { initPopup };
