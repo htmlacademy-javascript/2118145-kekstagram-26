@@ -1,10 +1,11 @@
-import { initPopup } from './popup.js';
-import { sendData } from './query.js';
-import { checkLengthString } from './util.js';
-import { showSuccessMessage, showErrorMessage } from './messages.js';
-import { MAX_COUNT_HASHTAGS, MAX_LENGTH_HASHTAG, MIN_LENGTH_HASHTAG, MAX_LENGTH_DESCRIPTION, FILE_TYPES } from './constants.js';
-import { resetEffect } from './effects.js';
-import { resetScale } from './scale.js';
+import {initPopup} from './popup.js';
+import {sendData} from './query.js';
+import {checkLengthString} from './util.js';
+import {showErrorMessage, showSuccessMessage} from './messages.js';
+import {FILE_TYPES, MAX_COUNT_HASHTAGS, MAX_LENGTH_DESCRIPTION, MAX_LENGTH_HASHTAG, MIN_LENGTH_HASHTAG} from './constants.js';
+import {resetEffect} from './effects.js';
+import {resetScale} from './scale.js';
+
 const uploadPopupForm = document.querySelector('.img-upload__overlay');
 const uploadInput = document.querySelector('#upload-file');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
@@ -115,8 +116,7 @@ class DescriptionValidator {
 
   validateDescription() {
     this.errorMessages.clear();
-    const isLengthValidate = this.validateLengthDescription(this.textarea.value);
-    return isLengthValidate;
+    return this.validateLengthDescription(this.textarea.value);
   }
 
   getLengthDescriptionErrorMessage() {
@@ -136,17 +136,30 @@ class DescriptionValidator {
   }
 }
 
+const hashtag = document.querySelector('.img-upload__field-wrapper  .text__hashtags');
+const description = document.querySelector('.img-upload__field-wrapper  .text__description');
+const form = document.querySelector('.img-upload__form');
+
+
 const { openPopup, closePopup } = initPopup(uploadPopupForm, {
   onClose: () => {
     uploadInput.value = '';
+    hashtag.value = '';
+    description.value = '';
+
     resetEffect();
     resetScale();
   }
 });
+
 function initValid() {
+<<<<<<< HEAD
+=======
   const hashtag = document.querySelector('.img-upload__field-wrapper  .text__hashtags');
   const description = document.querySelector('.img-upload__field-wrapper  .text__description');
   const form = document.querySelector('.img-upload__form');
+
+>>>>>>> 77812450262519e5e36395b45831b591fb1ab79c
   const pristine = new Pristine(form, {
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper',
@@ -155,21 +168,12 @@ function initValid() {
   new HashTagValidator(pristine, hashtag);
   new DescriptionValidator(pristine, description);
 
-  const reset = function () {
-    hashtag.value = '';
-    description.value = '';
-    resetEffect();
-    resetScale();
-
-  };
-
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
     if (pristine.validate()) {
       sendData(form)
         .then(() => {
           closePopup();
-          reset();
           showSuccessMessage('Удачная загрузка');
         })
         .catch(() => {
@@ -188,6 +192,7 @@ function initValid() {
     }
   });
 }
+<<<<<<< HEAD
 
 const showUploadForm = function () {
   const file = uploadInput.files[0];
@@ -211,4 +216,14 @@ function showUploadImage() {
   });
 }
 export { showUploadForm, initValid };
+=======
+const { openPopup, closePopup } = initPopup(uploadPopupForm, {
+  onClose: () => {
+    uploadInput.value = '';
+    resetEffect();
+  }
+});
+
+export { openPopup as showUploadForm, initValid };
+>>>>>>> 77812450262519e5e36395b45831b591fb1ab79c
 

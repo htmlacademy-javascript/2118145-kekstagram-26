@@ -26,12 +26,12 @@ function initFilters(profiles, cb) {
       case 'filter-random': {
         const shuffledProfiles = profiles.slice();
         shuffle(shuffledProfiles);
-        cb(shuffledProfiles);
+        cb(shuffledProfiles.splice(0, 10));
         break;
       }
       case 'filter-discussed': {
         const sortedProfiles = profiles.slice();
-        sortedProfiles.sort((a, b) => b.comments.length - a.comments.lenght);
+        sortedProfiles.sort((a, b) => b.comments.length - a.comments.length);
         cb(sortedProfiles);
         break;
       }
@@ -39,6 +39,7 @@ function initFilters(profiles, cb) {
   }, DELAY_UPDATING_FILTERS);
 
   formElement.addEventListener('click', doFiltering);
+
   cb(profiles);
 }
 export { initFilters };

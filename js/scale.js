@@ -6,8 +6,9 @@ const scaleValueInput = document.querySelector('.scale__control--value');
 let currentValue = 100;
 
 function resetScale() {
+  currentValue = DEFAULT_VALUE;
   scaleValueInput.value = `${DEFAULT_VALUE}%`;
-  bigImage.style.transform = `scale(${DEFAULT_VALUE}%)`;
+  changeScaleImage(DEFAULT_VALUE);
   return scaleValueInput;
 }
 
@@ -31,12 +32,17 @@ function addEventScaleMinus(step) {
   });
 }
 
-function changeScaleImage() {
+function changeScaleImage(currentValue) {
+  console.log(currentValue)
   bigImage.style.transform = `scale(${currentValue}%)`;
 }
 
-function scaleEvents() {
-  addEventScalePlus(25);
-  addEventScaleMinus(25);
+let scaleEventsInitiated = false
+function initScale() {
+  if (!scaleEventsInitiated) {
+    addEventScalePlus(25);
+    addEventScaleMinus(25);
+    scaleEventsInitiated = true
+  }
 }
-export { scaleEvents, resetScale };
+export { initScale, resetScale };

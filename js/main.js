@@ -1,9 +1,9 @@
 import { showUploadForm, initValid } from './form.js';
-import { editorImage } from './effects.js';
+import { initEditorImage } from './effects.js';
 import { getData } from './query.js';
 import { drawPictures } from './pictures.js';
 import { initFilters } from './filters.js';
-import {scaleEvents} from './scale.js';
+import {initScale} from './scale.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const profiles = await getData();
@@ -18,6 +18,6 @@ initValid();
 
 document.querySelector('#upload-file').addEventListener('change', () => {
   showUploadForm();
-  editorImage();
-  scaleEvents();
+  initEditorImage();
+  initScale();
 });

@@ -4,11 +4,15 @@ const effectsElement = document.querySelector('.effects');
 const effectInputElement = document.querySelector('.effect-level__value');
 const effectLevelElement = document.querySelector('.effect-level');
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
-let isLevelInitated = false;
+const effectsRadioElements = document.querySelectorAll('.effects__radio');
+let isLevelInitiated = false;
 
 function resetEffect() {
   imgUploadPreview.style.filter = '';
   effectLevelElement.classList.add('hidden');
+  effectsRadioElements.forEach((effectsRadio, index) => {
+    effectsRadio.checked = index === 0;
+  })
 }
 
 function setLevelValue() {
@@ -84,13 +88,13 @@ function setLevelValue() {
       resetEffect();
     }
   });
-  isLevelInitated = true;
+  isLevelInitiated = true;
 }
 
-function editorImage() {
-  if (!isLevelInitated) {
+function initEditorImage() {
+  if (!isLevelInitiated) {
     setLevelValue();
   }
 }
 
-export { editorImage, resetEffect };
+export { initEditorImage, resetEffect };
