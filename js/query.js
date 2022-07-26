@@ -1,9 +1,10 @@
 import { showDataErrorMessage } from './messages.js';
-const getRequestUrl = 'https://26.javascript.pages.academy/kekstagram/data';
-const postRequestUrl = 'https://26.javascript.pages.academy/kekstagram';
+const GET_REQUEST_URL = 'https://26.javascript.pages.academy/kekstagram/data';
+const POST_REQUEST_URL = 'https://26.javascript.pages.academy/kekstagram';
+
 async function getData() {
   try {
-    const response = await fetch(getRequestUrl);
+    const response = await fetch(GET_REQUEST_URL);
     if (!response.ok) {
       throw new Error(`Не удалось загрузить изображения. Ошибка:${response.status} — ${response.statusText}`);
     }
@@ -12,8 +13,9 @@ async function getData() {
     showDataErrorMessage(error.message);
   }
 }
+
 async function sendData(form) {
-  const response = await fetch(postRequestUrl, {
+  const response = await fetch(POST_REQUEST_URL, {
     method: 'POST',
     body: new FormData(form)
   });

@@ -8,9 +8,6 @@ function returnRandomNumber(min, max) {
   if (randomNumber < 0) {
     randomNumber = Math.abs(randomNumber);
   }
-  if (typeof randomNumber !== 'number' || !Number.isFinite(randomNumber) || isNaN(randomNumber)) {
-    throw new TypeError('Parameters not valid.');
-  }
   return Math.round(randomNumber);
 }
 
@@ -51,7 +48,7 @@ class RandomGenerator {
     this.array = Array.from({ length }, (_, index) => index + 1);
   }
 
-  next() {
+  getNext() {
     return this.array.splice(returnRandomNumber(1, this.array.length - 1), 1).shift();
   }
 }

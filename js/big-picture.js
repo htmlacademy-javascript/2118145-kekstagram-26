@@ -1,4 +1,5 @@
 import { initPopup } from './popup.js';
+import {ON_PAGE} from './constants.js';
 const bigPictureElement = document.querySelector('.big-picture');
 const urlPicture = bigPictureElement.querySelector('.big-picture__img img');
 const descriptionPicture = bigPictureElement.querySelector('.big-picture__social .social__caption');
@@ -9,7 +10,12 @@ const commentsCount = bigPictureElement.querySelector('.comments-count');
 const socialCommentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 socialCommentCount.classList.remove('hidden');
-const { openPopup, closePopup } = initPopup(bigPictureElement, removeLoadHandler);
+
+const { openPopup, closePopup } = initPopup(bigPictureElement, {
+  close () {
+    removeLoadHandler();
+  }
+});
 
 /** Function clears old comments
 **/
@@ -56,16 +62,16 @@ function removeLoadHandler() {
 function replaceComments(comments) {
   clearComments();
   const maxCount = comments.length;
-  const onPage = 5;
   const totalPages = Math.ceil(maxCount / 5);
   let page = 1;
-  commentsLoader.classList.remove('hidden');
   showNextCommentsPage = function () {
-    commentsContainer.appendChild(createComments(comments.slice((page - 1) * onPage, onPage * page)));
-    socialCommentCount.textContent = `${Math.min(page * onPage, maxCount)} из ${maxCount} коментариев`;
+    commentsContainer.appendChild(createComments(comments.slice((page - 1) * ON_PAGE, ON_PAGE * page)));
+    socialCommentCount.textContent = `${Math.min(page * ON_PAGE, maxCount)} из ${maxCount} коментариев`;
     page++;
     if (page > totalPages) {
       commentsLoader.classList.add('hidden');
+    } else {
+      commentsLoader.classList.remove('hidden');
     }
   };
   showNextCommentsPage();
@@ -82,4 +88,4 @@ function showBigPicture(item) {
   descriptionPicture.textContent = item.description;
   countLikesPicture.textContent = item.likes;
 }
-export { showBigPicture, closePopup as closeBigPicture };
+export { showBigPicture, closePopup };

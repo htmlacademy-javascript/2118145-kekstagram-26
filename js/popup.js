@@ -1,6 +1,4 @@
-import { resetEffect } from './effects.js';
-import { resetScale } from './scale.js';
-export function initPopup(element, { onClose } = {}) {
+export function initPopup(element, { close, onOpen } = {}) {
 
   const closeElement = element.querySelector('.cancel');
 
@@ -25,6 +23,9 @@ export function initPopup(element, { onClose } = {}) {
     document.body.style.overflow = 'hidden';
     document.body.classList.add('modal-open');
     addCloseHandlers();
+    if (onOpen) {
+      onOpen();
+    }
   }
 
   /** The function hides the window when the "Close window" button is clicked
@@ -34,10 +35,8 @@ export function initPopup(element, { onClose } = {}) {
     document.body.classList.remove('modal-open');
     document.body.style.overflow = 'auto';
     removeCloseHandlers();
-    resetEffect();
-    resetScale();
-    if (onClose) {
-      onClose();
+    if (close) {
+      close();
     }
   }
 
