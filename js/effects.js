@@ -1,3 +1,4 @@
+import { START_SLIDER, STEP_SLIDER, MIN_RANGE, MAX_RANGE, STEP_EFFECT_CHROME, STEP_EFFECT_SEPIA, STEP_EFFECT_MARVIN, STEP_EFFECT_PHOBOS, STEP_EFFECT_HEAT, MIN_RANGE_CHROME, MIN_RANGE_SEPIA, MIN_RANGE_MARVIN, MIN_RANGE_PHOBOS, MIN_RANGE_HEAT, MAX_RANGE_CHROME, MAX_RANGE_SEPIA, MAX_RANGE_MARVIN, MAX_RANGE_PHOBOS, MAX_RANGE_HEAT } from './constants.js';
 
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectsElement = document.querySelector('.effects');
@@ -15,6 +16,17 @@ function resetEffect() {
   });
 }
 
+let currentClassEffect;
+function setClassEffect(className) {
+  if (currentClassEffect) {
+    imgUploadPreview.classList.remove(currentClassEffect);
+  }
+  if (className) {
+    imgUploadPreview.classList.add(className);
+    currentClassEffect = className;
+  }
+}
+
 function setLevelValue() {
   let currentEffect = 'none';
   const EFFECTS = {
@@ -22,42 +34,42 @@ function setLevelValue() {
     {
       filter: 'grayscale',
       unit: '',
-      slider: { step: 0.1, min: 0, max: 1 }
+      slider: { step: STEP_EFFECT_CHROME, min: MIN_RANGE_CHROME, max: MAX_RANGE_CHROME }
     },
     'effect-sepia':
     {
       filter: 'sepia',
       unit: '',
-      slider: { step: 0.1, min: 0, max: 1 }
+      slider: { step: STEP_EFFECT_SEPIA, min: MIN_RANGE_SEPIA, max: MAX_RANGE_SEPIA }
     },
     'effect-marvin':
     {
       filter: 'invert',
       unit: '%',
-      slider: { step: 1, min: 0, max: 100 }
+      slider: { step: STEP_EFFECT_MARVIN, min: MIN_RANGE_MARVIN, max: MAX_RANGE_MARVIN }
     },
     'effect-phobos':
     {
       filter: 'blur',
       unit: 'px',
-      slider: { step: 0.1, min: 0, max: 3 }
+      slider: { step: STEP_EFFECT_PHOBOS, min: MIN_RANGE_PHOBOS, max: MAX_RANGE_PHOBOS }
     },
     'effect-heat':
     {
       filter: 'brightness',
       unit: '',
-      slider: { step: 0.1, min: 1, max: 3 }
+      slider: { step: STEP_EFFECT_HEAT, min: MIN_RANGE_HEAT, max: MAX_RANGE_HEAT }
     },
   };
 
   noUiSlider.create(sliderElement, {
     range: {
-      min: 0,
-      max: 100,
+      min: MIN_RANGE,
+      max: MAX_RANGE,
     },
 
-    start: 0,
-    step: 0.1,
+    start: START_SLIDER,
+    step: STEP_SLIDER,
     connect: 'lower',
   });
 
@@ -81,10 +93,13 @@ function setLevelValue() {
           min: effect.slider.min,
           max: effect.slider.max,
         },
+        start: effect.slider.max,
         step: effect.slider.step,
       });
+      setClassEffect(`effects__preview--${currentEffect}`);
     } else {
       currentEffect = 'none';
+      setClassEffect(null);
       resetEffect();
     }
   });

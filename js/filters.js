@@ -1,5 +1,5 @@
 import { shuffle, throttle } from './util.js';
-import { DELAY_UPDATING_FILTERS } from './constants.js';
+import { DELAY_UPDATING_FILTERS,MIN_SHUFFLED_PROFILES,MAX_SHUFFLED_PROFILES } from './constants.js';
 
 const filtersElement = document.querySelector('.img-filters');
 const formElement = filtersElement.querySelector('.img-filters__form');
@@ -26,7 +26,7 @@ function initFilters(profiles, cb) {
       case 'filter-random': {
         const shuffledProfiles = profiles.slice();
         shuffle(shuffledProfiles);
-        cb(shuffledProfiles.splice(0, 10));
+        cb(shuffledProfiles.splice(MIN_SHUFFLED_PROFILES, MAX_SHUFFLED_PROFILES));
         break;
       }
       case 'filter-discussed': {

@@ -1,3 +1,5 @@
+import {AUTO_CLOSE} from './constants.js';
+
 function showSuccessMessage(message) {
   return createInfoBlock(message, {
     templateId: '#success',
@@ -13,7 +15,7 @@ function showDataErrorMessage(error) {
     containerSelector: '.error',
     titleSelector: '.error__title',
     buttonSelector: '.error__button',
-    autoClose: 500
+    autoClose: AUTO_CLOSE
   });
 }
 
