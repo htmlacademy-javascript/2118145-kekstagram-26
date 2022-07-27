@@ -1,4 +1,4 @@
-import { MIN_SCALE_VALUE, MAX_SCALE_VALUE,DEFAULT_VALUE,VALUE_SCALE_PLUS, VALUE_SCALE_MINUS } from './constants.js';
+import { MIN_SCALE_VALUE, MAX_SCALE_VALUE,CURRENT_VALUE } from './constants.js';
 const scaleSmaller = document.querySelector('.scale__control--smaller');
 const scaleBigger = document.querySelector('.scale__control--bigger');
 const bigImage = document.querySelector('.img-upload__preview');
@@ -6,9 +6,8 @@ const scaleValueInput = document.querySelector('.scale__control--value');
 let currentValue = 100;
 
 function resetScale() {
-  currentValue = DEFAULT_VALUE;
-  scaleValueInput.value = `${DEFAULT_VALUE}%`;
-  changeScaleImage(DEFAULT_VALUE);
+  scaleValueInput.value = `${CURRENT_VALUE}%`;
+  bigImage.style.transform = `scale(${CURRENT_VALUE}%)`;
   return scaleValueInput;
 }
 
@@ -32,16 +31,12 @@ function addEventScaleMinus(step) {
   });
 }
 
-function changeScaleImage(defaultValue) {
-  bigImage.style.transform = `scale(${defaultValue}%)`;
+function changeScaleImage() {
+  bigImage.style.transform = `scale(${currentValue}%)`;
 }
 
-let scaleEventsInitiated = false;
-function initScale() {
-  if (!scaleEventsInitiated) {
-    addEventScalePlus(VALUE_SCALE_PLUS);
-    addEventScaleMinus(VALUE_SCALE_MINUS);
-    scaleEventsInitiated = true;
-  }
+function scaleEvents() {
+  addEventScalePlus(25);
+  addEventScaleMinus(25);
 }
-export { initScale, resetScale };
+export { scaleEvents, resetScale };

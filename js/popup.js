@@ -1,4 +1,4 @@
-export function initPopup(element, { onClose, onOpen } = {}) {
+export function initPopup(element, { close, onOpen } = {}) {
 
   const closeElement = element.querySelector('.cancel');
 
@@ -35,12 +35,12 @@ export function initPopup(element, { onClose, onOpen } = {}) {
     document.body.classList.remove('modal-open');
     document.body.style.overflow = 'auto';
     removeCloseHandlers();
-    if (onClose) {
-      onClose();
+    if (close) {
+      close();
     }
   }
 
-  /** The function call function closeBigPicture
+  /** The function call function closePopup
   **/
   function closeHandler() {
     closePopup();
@@ -55,4 +55,3 @@ export function initPopup(element, { onClose, onOpen } = {}) {
   }
   return { openPopup, closePopup };
 }
-// export { initPopup };
