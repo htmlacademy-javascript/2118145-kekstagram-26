@@ -1,4 +1,5 @@
 import { initPopup } from './popup.js';
+import { LOAD_COMMENTS } from './constants.js';
 const bigPictureElement = document.querySelector('.big-picture');
 const urlPicture = bigPictureElement.querySelector('.big-picture__img img');
 const descriptionPicture = bigPictureElement.querySelector('.big-picture__social .social__caption');
@@ -10,8 +11,8 @@ const socialCommentCount = document.querySelector('.social__comment-count');
 const commentsLoader = document.querySelector('.comments-loader');
 socialCommentCount.classList.remove('hidden');
 
-const { openPopup, closePopup } = initPopup(bigPictureElement, {
-  onClose () {
+const { openPopup } = initPopup(bigPictureElement, {
+  close() {
     removeLoadHandler();
   }
 });
@@ -61,12 +62,11 @@ function removeLoadHandler() {
 function replaceComments(comments) {
   clearComments();
   const maxCount = comments.length;
-  const onPage = 5;
-  const totalPages = Math.ceil(maxCount / 5);
+  const totalPages = Math.ceil(maxCount / LOAD_COMMENTS);
   let page = 1;
   showNextCommentsPage = function () {
-    commentsContainer.appendChild(createComments(comments.slice((page - 1) * onPage, onPage * page)));
-    socialCommentCount.textContent = `${Math.min(page * onPage, maxCount)} из ${maxCount} коментариев`;
+    commentsContainer.appendChild(createComments(comments.slice((page - 1) * LOAD_COMMENTS, LOAD_COMMENTS * page)));
+    socialCommentCount.textContent = `${Math.min(page * LOAD_COMMENTS, maxCount)} из ${maxCount} коментариев`;
     page++;
     if (page > totalPages) {
       commentsLoader.classList.add('hidden');
@@ -88,4 +88,4 @@ function showBigPicture(item) {
   descriptionPicture.textContent = item.description;
   countLikesPicture.textContent = item.likes;
 }
-export { showBigPicture, closePopup as closeBigPicture };
+export { showBigPicture };
