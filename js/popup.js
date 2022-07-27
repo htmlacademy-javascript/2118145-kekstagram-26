@@ -40,7 +40,7 @@ export function initPopup(element, { close, onOpen } = {}) {
     }
   }
 
-  /** The function call function closeBigPicture
+  /** The function call function closePopup
   **/
   function closeHandler() {
     closePopup();
@@ -55,4 +55,3 @@ export function initPopup(element, { close, onOpen } = {}) {
   }
   return { openPopup, closePopup };
 }
-// export { initPopup };

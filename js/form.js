@@ -30,7 +30,6 @@ class HashTagValidator {
 
   addValidation() {
     this.pristine.addValidator(this.input, (value) => this.validateTags(value), () => this.getErrorMessages());
-    // this.pristine.addValidator(this.input, (value) => value.length <= 140, () => this.lengthTagErrorMessage);
   }
 
   getErrorMessages() {

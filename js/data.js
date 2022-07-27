@@ -54,6 +54,7 @@ function generateUserProfile() {
  * @param {number} length
  * @return {array}
 **/
+// eslint-disable-next-line
 function generateUserProfiles(length) {
   return Array.from({ length }, generateUserProfile);
 }

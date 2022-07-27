@@ -1,5 +1,5 @@
 import { initPopup } from './popup.js';
-import {ON_PAGE} from './constants.js';
+import {LOAD_COMMENTS} from './constants.js';
 const bigPictureElement = document.querySelector('.big-picture');
 const urlPicture = bigPictureElement.querySelector('.big-picture__img img');
 const descriptionPicture = bigPictureElement.querySelector('.big-picture__social .social__caption');
@@ -65,8 +65,8 @@ function replaceComments(comments) {
   const totalPages = Math.ceil(maxCount / 5);
   let page = 1;
   showNextCommentsPage = function () {
-    commentsContainer.appendChild(createComments(comments.slice((page - 1) * ON_PAGE, ON_PAGE * page)));
-    socialCommentCount.textContent = `${Math.min(page * ON_PAGE, maxCount)} из ${maxCount} коментариев`;
+    commentsContainer.appendChild(createComments(comments.slice((page - 1) * LOAD_COMMENTS, LOAD_COMMENTS * page)));
+    socialCommentCount.textContent = `${Math.min(page * LOAD_COMMENTS, maxCount)} из ${maxCount} коментариев`;
     page++;
     if (page > totalPages) {
       commentsLoader.classList.add('hidden');
